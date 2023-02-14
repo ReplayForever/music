@@ -1,0 +1,23 @@
+version: "3.7"
+
+volumes:
+  postgres:
+
+networks:
+  network:
+    driver: 'bridge'
+
+services:
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    volumes:
+      - ./.data/postgres:/data/postgres
+    environment:
+      POSTGRES_DB: ${DOCKER_POSTGRES_DB:-music}
+      POSTGRES_USER: ${DOCKER_POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${DOCKER_POSTGRES_PASSWORD:-changeme}
+    ports:
+      - 5432:5432
+    networks:
+      - network
