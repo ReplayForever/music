@@ -1,3 +1,4 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -30,7 +31,12 @@ class Album(AbstractModel):
         related_name='album',
     )
     title = models.CharField(max_length=200, verbose_name='Название альбома')
-    year = models.DateField(null=True, verbose_name='Год выхода альбома')
+    year = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1800), MaxValueValidator(2050)],
+        verbose_name='Год выхода альбома',
+    )
     genre = models.IntegerField(choices=Genres.choices, verbose_name='Тип')
 
     class Meta:
@@ -56,7 +62,12 @@ class Track(AbstractModel):
         related_name='tracks',
     )
     title = models.CharField(blank=False, max_length=200, verbose_name='Название трека')
-    year = models.DateField(verbose_name='Год выхода трека')
+    year = models.IntegerField(
+        null=True,
+        blank=True,
+        validators=[MinValueValidator(1800), MaxValueValidator(2050)],
+        verbose_name='Год выхода трека',
+    )
 
     class Meta:
         verbose_name = 'Аудиозапись'

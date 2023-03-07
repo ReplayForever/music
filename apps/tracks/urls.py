@@ -1,11 +1,12 @@
 from django.urls import path, include
 from rest_framework import routers
 
-from apps.tracks.views import AlbumViewSet
+from apps.tracks.views import AlbumViewSet, TrackViewSet
 
 router = routers.DefaultRouter()
-router.register('', AlbumViewSet)
+router.register('album', AlbumViewSet)
+router.register('track', TrackViewSet)
 
 urlpatterns = [
-    path('album', include(router.urls)),
+    path('', include(router.urls)),
 ]
