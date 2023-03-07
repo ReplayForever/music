@@ -1,18 +1,25 @@
 from rest_framework import serializers
 
-from apps.tracks.models import Track
+from apps.tracks.models import Track, Album, Songwriter
 
 
 class TrackSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Track
         fields = ['id', 'title', 'year', ]
 
 
 class AlbumSerializer(serializers.ModelSerializer):
-    tracks = TrackSerializer()
+    track = TrackSerializer(many=True, read_only=True)
 
     class Meta:
-        model = Track
-        fields = ['id', 'title', 'year', 'genre', 'tracks', ]
+        model = Album
+        fields = ['id', 'title', 'year', 'genre', 'track', ]
 
+
+class SongwriterSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Songwriter
+        fields = ['id', 'name', ]

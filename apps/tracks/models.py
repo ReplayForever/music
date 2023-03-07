@@ -4,6 +4,17 @@ from django.utils.translation import gettext_lazy as _
 from apps.commons.abstract_models import AbstractModel
 
 
+class Songwriter(AbstractModel):
+    name = models.CharField(max_length=200, verbose_name='Группа')
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
+
+    def __str__(self):
+        return self.name
+
+
 class Album(AbstractModel):
 
     class Genres(models.IntegerChoices):
@@ -12,8 +23,14 @@ class Album(AbstractModel):
         HIPHOP = 3, _('Хип-Хоп')
         POP = 4, _('Попса')
 
-    title = models.CharField(blank=False, max_length=200, verbose_name='Название альбома')
-    year = models.DateField(verbose_name='Год выхода альбома')
+    songwriter = models.ForeignKey(
+        Songwriter,
+        on_delete=models.CASCADE,
+        verbose_name='Исполнитель',
+        related_name='album',
+    )
+    title = models.CharField(max_length=200, verbose_name='Название альбома')
+    year = models.DateField(null=True, verbose_name='Год выхода альбома')
     genre = models.IntegerField(choices=Genres.choices, verbose_name='Тип')
 
     class Meta:
@@ -27,10 +44,16 @@ class Album(AbstractModel):
 class Track(AbstractModel):
     album = models.ForeignKey(
         Album,
-        on_delete=models.CASCADE,
-        blank=False,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
         verbose_name='Альбом',
         related_name='track',
+    )
+    songwriter = models.ManyToManyField(
+        Songwriter,
+        verbose_name='Исполнитель',
+        related_name='tracks',
     )
     title = models.CharField(blank=False, max_length=200, verbose_name='Название трека')
     year = models.DateField(verbose_name='Год выхода трека')
