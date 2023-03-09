@@ -1,8 +1,8 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 
 from apps.commons.abstract_models import AbstractModel
+from apps.commons.choices import Genres
 
 
 class Songwriter(AbstractModel):
@@ -17,13 +17,6 @@ class Songwriter(AbstractModel):
 
 
 class Album(AbstractModel):
-
-    class Genres(models.IntegerChoices):
-        ROCK = 1, _('Рок')
-        ELECTRONIC = 2, _('Электроника')
-        HIPHOP = 3, _('Хип-Хоп')
-        POP = 4, _('Попса')
-
     songwriter = models.ForeignKey(
         Songwriter,
         on_delete=models.CASCADE,

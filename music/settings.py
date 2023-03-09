@@ -141,6 +141,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'apps.commons.pagination.PageNumberPagination',
+    'PAGE_SIZE': env.int('PAGE_SIZE_DEFAULT', default=10),
 }
 
 USE_X_FORWARDED_HOST = True
