@@ -5,13 +5,14 @@ from apps.tracks.models import Album
 
 
 class AlbumFilter(filters.FilterSet):
-    # year = filters.CharFilter(method='filter_by_year', field_name='year')
-    songwriter = ListFilter(field_name='songwriter__name')
-    title = filters.CharFilter(field_name='title')
+    year = ListFilter(field_name='year')
+    songwriter = ListFilter(field_name='songwriter__name__icontains')
+    title = ListFilter(field_name='title__icontains')
 
     class Meta:
         model = Album
         fields = [
             'songwriter',
             'title',
+            'year',
         ]

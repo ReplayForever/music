@@ -35,6 +35,7 @@ INSTALLED_APPS = [
 
     'drf_yasg',
     'dj_rest_auth',
+    'django_filters',
 
     'apps.tracks',
 ]
@@ -141,8 +142,7 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'apps.commons.pagination.PageNumberPagination',
-    'PAGE_SIZE': env.int('PAGE_SIZE_DEFAULT', default=10),
+    'DEFAULT_PAGINATION_CLASS': 'apps.commons.pagination.DefaultPagination',
 }
 
 USE_X_FORWARDED_HOST = True
